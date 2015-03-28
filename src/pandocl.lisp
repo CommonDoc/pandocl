@@ -66,9 +66,9 @@
   "Try to guess the CommonDoc format from a pathname, or signal
 unknown-file-extension."
   (let ((extension (pathname-type pathname)))
-    (or (assoc extension
-               +format-extension-map+
-               :test #'equalp)
+    (or (rest (assoc extension
+                     +format-extension-map+
+                     :test #'equalp))
         (error 'unknown-file-extension :extension extension))))
 
 (defun check-supported-format (format-name list)
@@ -101,7 +101,7 @@ unknown-file-extension."
                                  (if-does-not-exist :create))
   "Dump a document to a file, optionally specifying an output format."
   (let ((format (or format (guess-format pathname))))
-    (check-supported-input-format format)
+    (check-supported-output-format format)
     (let ((format-class (find-format format)))
       (with-open-file (output-stream pathname
                                      :direction :output
