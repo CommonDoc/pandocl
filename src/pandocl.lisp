@@ -3,8 +3,10 @@
   (:use :cl)
   (:export ;; Interface
            :parse
+           :parse-string
            :emit
            :convert
+           :guess-format
            ;; Errors
            :pandocl-error
            :unsupported-format
@@ -96,6 +98,13 @@ unknown-file-extension."
     (let ((format-class (find-format format)))
       (common-doc.format:parse-document (make-instance format-class)
                                         pathname))))
+
+(defun parse-string (string format)
+  "Parse a string, necessarily specifying an input format."
+  (check-supported-input-format format)
+  (let ((format-class (find-format format)))
+    (common-doc.format:parse-document (make-instance format-class)
+                                      string)))
 
 (defun emit (document pathname &key format (if-exists :supersede)
                                  (if-does-not-exist :create))
