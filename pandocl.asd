@@ -7,9 +7,11 @@
   :bug-tracker ""
   :source-control (:git "")
   :depends-on (:common-doc
+               :common-doc-contrib
                :vertex
                :scriba
                :parenml
+               :thorn
                :common-html)
   :components ((:module "src"
                 :serial t
